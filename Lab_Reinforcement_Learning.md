@@ -1,4 +1,3 @@
-
 ---
 title: "Tutorial 1: Reinforcement Learning"
 author:
