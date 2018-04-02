@@ -225,6 +225,17 @@ and by running `python run.py`, the following figure is displayed:
 
 ### 3. *Add a second goal:* modify the reward function to give $0.9$ when the robot is in state $5$ and does not move. Explain when and why the robot chooses to go to this new goal instead of the first one. Explain what parameter is responsible of this behaviour.
 
-![](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
+The choice of the discount factor $γ$ is a tradeoff between exploration (exploring farther states) and exploitation/greediness (exploiting the rewards of the nearby one). As it happens: the smaller the parameter $γ$, the more the robot tends to exploit the closest state associated with a (strictly) positive reward (even if there might be a state farther on which a given action leads to a bigger reward).
 
-![](https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png)
+Here, there are two different optimal policies, depending on the value of $γ$:
+
+
+|Value of $γ$|Optimal Policy|
+-|-
+**Greedier policy**: $γ ≤ γ_0 ≝ 0.94868329806$|![](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
+**More exploratory policy**: $γ > γ_0$|![](https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png)
+
+
+When it comes to the greedier policy: for states close to the state $5$ (denoted by $6$ on the pictures), the robot tends to head to the state $5$, even if its reward ($=0.9$) is inferior the reward ($=1$) of the state $15$ (denoted by $16$ on the pictures)
+
+On the contrary, with the more exploratory policy: apart from the states $0, 1$ and $4$ (which are one step away from the state $5$), the robot favors the state $15$, i.e. the long-term bigger reward over the smaller yet closer (for the states $2, 6, 8$ and $9$) reward of the state $5$.
