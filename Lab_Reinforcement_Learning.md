@@ -224,3 +224,7 @@ and by running `python run.py`, the following figure is displayed:
 
 
 ### 3. *Add a second goal:* modify the reward function to give $0.9$ when the robot is in state $5$ and does not move. Explain when and why the robot chooses to go to this new goal instead of the first one. Explain what parameter is responsible of this behaviour.
+
+![](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
+
+![](https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png)
