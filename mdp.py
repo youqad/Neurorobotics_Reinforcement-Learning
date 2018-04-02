@@ -76,7 +76,7 @@ class mdp():
 
     def VI(self):
         Q = np.zeros((self.nX, self.nU))
-        pol = N*np.ones((self.nX, 1))
+        pol = N*np.ones(self.nX)
         quitt = False
         iterr = 0
 
@@ -96,11 +96,11 @@ class mdp():
         return [Q,pol]
 
     def PI(self):
-        Q = np.empty((self.nX,self.nU))
-        pol = N*np.ones(self.nX,dtype=np.int16)
+        Q = np.empty((self.nX, self.nU))
+        pol = N*np.ones(self.nX, dtype=np.int16)
         I = np.eye((self.nX))
-        R = np.zeros((self.nX,1))
-        P = np.zeros((self.nX,self.nX))
+        R = np.zeros(self.nX)
+        P = np.zeros((self.nX, self.nX))
         quitt = False
         iterr = 0
 
@@ -108,24 +108,24 @@ class mdp():
             iterr += 1
 
             for i in range(self.nX):
-                R[i]= self.r[i,pol[i]]
+                R[i] = self.r[i,pol[i]]
                 for j in range(self.nX):
                     P[i,j] = self.P[i,pol[i],j]
 
-            V = np.dot(np.linalg.inv(I-self.gamma*P),R)
+            V = np.dot(np.linalg.inv(I-self.gamma*P), R)
 
-            #for i in range(self.nX):
-            #    for j in range(self.nU):
-            #        Q[i,j] =
+            for i in range(self.nX):
+                for j in range(self.nU):
+                    Q[i,j] = self.r[i,j] + self.gamma * np.sum(self.P[i,j,:] * V)
+                    print(Q[i,j])
 
             pol_old = pol.copy()
-            Qmax = Q.max(axis=1)
-            pol =  np.argmax(Q,axis=1)
+            pol = np.argmax(Q, axis=1)
 
-            if np.array_equal(pol,pol_old) :
+            if np.array_equal(pol, pol_old):
                 quitt = True
 
-        return [Q,pol]
+        return [Q, pol]
 
 
 ##############-TD-LEARNING-########################

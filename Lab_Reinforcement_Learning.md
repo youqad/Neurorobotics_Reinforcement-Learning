@@ -267,6 +267,6 @@ $$
 which yields another algorithm to compute the optimal policy, along with
 
 $$\begin{cases}
-Q^π = r(x, u) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, u, y) V^π(y) && (6)\\
+Q^π(x, u) = r(x, u) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, u, y) V^π(y) && (6)\\
 π^{(k+1)}(x) = {\rm argmax}_u {Q^π}^{(k)}(x, u)  && (10)\\
 \end{cases}$$
