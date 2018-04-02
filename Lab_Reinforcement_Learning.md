@@ -241,3 +241,32 @@ When it comes to the greedier policy: for states close to the state $5$ (denoted
 On the contrary, with the more exploratory policy: apart from the states $0, 1$ and $4$ (which are one step away from the state $5$), the robot favors the state $15$, i.e. the long-term bigger reward over the smaller yet *closer* (*for the states $2, 6, 8$ and $9$*) reward of the state $5$.
 
 ### 4. Change `self.P` to implement stochastic (non-deterministic) transitions. Use comments in the code to describe the transitions you chose and the results you observed while running `VI` on the new transitions you defined.
+
+TODO
+
+
+## 2.2. Policy Iteration
+
+
+By definition of the state value function of a given policy $π$, we have:
+
+$$V^π(x) = r(x, π(x)) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, π(x), y) V^π(y)$$
+
+But as $𝒳$ is finite: by setting $\textbf{V}_π$ (resp. $\textbf{R}_π$) to be the vector-matrix $(V^π(x))_{x ∈ 𝒳}$ (resp. $(r(x, π(x)))_{x ∈ 𝒳}$), and
+
+$$\textbf{P}_π ≝ (𝒫(x, π(x), y))_{\substack{x ∈ 𝒳 \\ y ∈ 𝒳}}$$
+
+it comes that
+
+$$\begin{align*}
+& \; \textbf{V}_π = \textbf{R}_π + γ \textbf{P}_π \textbf{V}_π\\
+⟺ & \; \textbf{V}_π =(\textbf{I} - γ \textbf{P}_π)^{-1} \textbf{R}_π  && (9)\\
+\end{align*}
+$$
+
+which yields another algorithm to compute the optimal policy, along with
+
+$$\begin{cases}
+Q^π = r(x, u) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, u, y) V^π(y) && (6)\\
+π^{(k+1)}(x) = {\rm argmax}_u {Q^π}^{(k)}(x, u)  && (10)\\
+\end{cases}$$
