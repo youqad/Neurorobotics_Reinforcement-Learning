@@ -68,7 +68,7 @@ class mdp():
         self.r[5, NoOp] = 0.9
 
 
-        self.gamma = 0.94868329806
+        self.gamma = np.sqrt(0.9)-0.000000000000001
         #self.gamma = "?"
 
 ###################-DYNAMIC PROGRAMMING-###############

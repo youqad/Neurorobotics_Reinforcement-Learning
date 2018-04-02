@@ -232,10 +232,10 @@ Here, there are two different optimal policies, depending on the value of $γ$:
 
 |Value of $γ$|Optimal Policy|
 -|-
-**Greedier policy**: $γ ≤ γ_0 ≝ 0.94868329806$|![](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
-**More exploratory policy**: $γ > γ_0$|![](https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png)
+**Greedier policy**: $γ < γ_0 ≝ \sqrt{0.9}$|![](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
+**More exploratory policy**: $γ ≥ γ_0$|![](https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png)
 
 
 When it comes to the greedier policy: for states close to the state $5$ (denoted by $6$ on the pictures), the robot tends to head to the state $5$, even if its reward ($=0.9$) is inferior the reward ($=1$) of the state $15$ (denoted by $16$ on the pictures)
 
-On the contrary, with the more exploratory policy: apart from the states $0, 1$ and $4$ (which are one step away from the state $5$), the robot favors the state $15$, i.e. the long-term bigger reward over the smaller yet closer (for the states $2, 6, 8$ and $9$) reward of the state $5$.
+On the contrary, with the more exploratory policy: apart from the states $0, 1$ and $4$ (which are one step away from the state $5$), the robot favors the state $15$, i.e. the long-term bigger reward over the smaller yet *closer* (*for the states $2, 6, 8$ and $9$*) reward of the state $5$.
