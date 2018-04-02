@@ -270,3 +270,44 @@ $$\begin{cases}
 Q^π(x, u) = r(x, u) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, u, y) V^π(y) && (6)\\
 π^{(k+1)}(x) = {\rm argmax}_u {Q^π}^{(k)}(x, u)  && (10)\\
 \end{cases}$$
+
+### 1. Fill the code `PI(self)` to implement policy iteration, and test it. Compare the converge speed of `VI` and `PI`.
+
+Using the previous equations, it comes that:
+
+```python
+def PI(self):
+    Q = np.empty((self.nX, self.nU))
+    pol = N*np.ones(self.nX, dtype=np.int16)
+    I = np.eye((self.nX))
+    R = np.zeros(self.nX)
+    P = np.zeros((self.nX, self.nX))
+    quitt = False
+    iterr = 0
+
+    while quitt==False:
+        iterr += 1
+
+        for i in range(self.nX):
+            R[i] = self.r[i,pol[i]]
+            for j in range(self.nX):
+                P[i,j] = self.P[i,pol[i],j]
+
+        V = np.dot(np.linalg.inv(I-self.gamma*P), R)
+
+        for i in range(self.nX):
+            for j in range(self.nU):
+                Q[i,j] = self.r[i,j] + self.gamma * np.sum(self.P[i,j,:] * V)
+                print(Q[i,j])
+
+        pol_old = pol.copy()
+        pol = np.argmax(Q, axis=1)
+
+        if np.array_equal(pol, pol_old):
+            quitt = True
+
+    return [Q, pol]
+```
+
+
+# 3. Reinforcement Learning
