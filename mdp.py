@@ -212,7 +212,6 @@ class mdp():
     def RTDP(self):
         Q = np.zeros((self.nX,self.nU))
         hatP = np.ones((self.nX,self.nU,self.nX))/self.nX
-        hatR =
         N = np.ones((self.nX,self.nU))
 
         nbIter = 10000
