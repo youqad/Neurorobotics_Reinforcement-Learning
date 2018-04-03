@@ -332,7 +332,21 @@ def PI(self):
     return [Q, pol]
 ```
 
-We compared the convergences of VI and PI and found that, VI algorithm converges after 667 iterations while the PI algorithm converges after 3 iterations, supporting that PI is more efficient than VI (gamma is set as 0.95).
+We compared the convergences of `VI` and `PI` and found that, `VI` algorithm converges after 667 iterations while the `PI` algorithm converges after 3 iterations, supporting the fact that `PI` is more efficient than VI (gamma is set to `0.95`).
+
+In a terminal:
+
+```sh
+python -mtimeit -s'import mdp' 'mdp.mdp().PI()'
+>> 100 loops, best of 3: 2.66 msec per loop
+
+python -mtimeit -s'import mdp' 'mdp.mdp().VI()'
+>> 10 loops, best of 3: 250 msec per loop
+```
+
+which suggests that
+
+> `PI` is approximately 100 times faster than `VI`
 
 # 3. Reinforcement Learning: Model-free approaches
 
