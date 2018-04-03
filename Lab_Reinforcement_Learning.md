@@ -220,7 +220,7 @@ def VI(self):
 
 and by running `python run.py`, the following figure is displayed:
 
-![VI](https://i.gyazo.com/92851318f58af7b738c8b2c875ae38f7.png)
+<img src="https://i.gyazo.com/92851318f58af7b738c8b2c875ae38f7.png" alt="VI" style="width: 60%; margin-left: 20%;"/>
 
 
 ### 3. *Add a second goal:* modify the reward function to give $0.9$ when the robot is in state $5$ and does not move. Explain when and why the robot chooses to go to this new goal instead of the first one. Explain what parameter is responsible of this behaviour.
@@ -232,8 +232,8 @@ Here, there are two different optimal policies, depending on the value of $γ$:
 
 |Value of $γ$|Optimal Policy|
 -|-
-**Greedier policy**: $γ < γ_0 ≝ \sqrt{0.9}$|![Gamma_smaller_than_square_root_0.9 ](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
-**More exploratory policy**: $γ ≥ γ_0$|![Gamma_greater_than_square_root_0.9 ](https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png)
+**Greedier policy**: $γ < γ_0 ≝ \sqrt{0.9}$|<img src="https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png" alt="Gamma_smaller_than_square_root_0.9" style="width: 60%; margin-left:20%"/>
+**More exploratory policy**: $γ ≥ γ_0$|<img src="https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png" alt="Gamma_greater_than_square_root_0.9" style="width: 60%; margin-left:20%"/>
 
 
 When it comes to the greedier policy: for states close to the state $5$ (denoted by $6$ on the pictures), the robot tends to head to the state $5$, even if its reward ($=0.9$) is inferior the reward ($=1$) of the state $15$ (denoted by $16$ on the pictures)
@@ -410,7 +410,9 @@ for
 
 - the deterministic transition function and the reward function of question **2.1.3.** (the reward is null everywhere except at state $5$ (where it amounts to $0.9$) and state $15$ (where it amounts to $1$) when the robot doesn't move)
 
-- the following policy ($γ < \sqrt{0.9}$): ![Gamma_smaller_than_square_root_0.9 ](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
+- the following policy ($γ < \sqrt{0.9}$):
+
+    <img src="https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png" alt="Gamma_smaller_than_square_root_0.9" style="width: 60%; margin-left:20%"/>
 
 which makes perfect sense, intuitively.
 
