@@ -289,7 +289,6 @@ Using the previous equations, it comes that:
 def PI(self):
     Q = np.empty((self.nX, self.nU))
     pol = N*np.ones(self.nX, dtype=np.int16)
-    I = np.eye((self.nX))
     R = np.zeros(self.nX)
     P = np.zeros((self.nX, self.nX))
     quitt = False
@@ -536,8 +535,6 @@ def RTDP(self):
     hatP = np.ones((self.nX,self.nU,self.nX))/self.nX
     N = np.ones((self.nX,self.nU))
 
-    I = np.array(range(self.nX))
-
     nbIter = 10000
 
     for iterr in range(nbIter):
@@ -559,6 +556,57 @@ def RTDP(self):
         N[x,u] += 1
 
     Qmax = Q.max(axis=1)
+    pol =  np.argmax(Q,axis=1)
+
+    return [Qmax,pol]
+```
+
+### 2. Suppose now that the reward is stochastic: modify `MDPStep` by adding a Gaussian noise of standard deviation $0.1$ to the reward. What happens if you set the standard deviation to $1.0$?
+
+```python
+def MDPStep(self,x,u,sigma=0.1):
+    # This function executes a step on the MDP M given current state x and action u.
+    # It returns a next state y and a reward r
+    y = self.discreteProb(self.P[x,u,:]) # y is sampled according to the distribution self.P[x,u,:]
+    r = self.r[x,u] + sigma * np.random.randn() # r is be the reward of the transition
+    return [y,r]
+```
+
+TODO : what happens if sigma=1
+
+### 3. Implement `RTDP2`, a variant of RTDP that handles this stochastic reward by computing the model $\hat{r}$ of the mean reward for each state and action (like in equation $(17)$ for $\hat{P}$).
+
+```python
+def RTDP2(self):
+    Q = np.zeros((self.nX,self.nU))
+    hatP = np.ones((self.nX,self.nU,self.nX))/self.nX
+    hatR = np.zeros((self.nX,self.nU))
+    N = np.ones((self.nX,self.nU))
+
+    nbIter = 10000
+
+    for iterr in range(nbIter):
+        # Draw a random pair of state and action
+        x = np.floor(self.nX*np.random.random()).astype(int)
+        u = np.floor(self.nU*np.random.random()).astype(int)
+
+        # One step of the MDP for this state-action pair
+        [y,r] = self.MDPStep(x,u,sigma=0.1)
+
+        # Compute the estimate of the transition probabilities
+        hatP[x,u,:] *= (1 - 1/N[x, u])
+        hatP[x,u,:] += (np.arange(self.nX) == y).astype(int)/N[x, u]
+
+        # Compute the estimate of the reward
+        hatR[x,u] = ((N[x, u]-1)*hatR[x,u] + r)/N[x, u]
+
+        # Updating rule for the state-action value function
+        Qmax = Q.max(axis=1)
+        Q[x,u] = hatR[x,u] + self.gamma * np.sum(hatP[x,u,:]*Qmax)
+
+        N[x,u] += 1
+
+    Qmax =Q.max(axis=1)
     pol =  np.argmax(Q,axis=1)
 
     return [Qmax,pol]
