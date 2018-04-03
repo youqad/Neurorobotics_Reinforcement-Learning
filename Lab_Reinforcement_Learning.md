@@ -574,7 +574,7 @@ def MDPStep(self,x,u,sigma=0.1):
     return [y,r]
 ```
 
-TODO : what happens if sigma=1
+The noise in reward have an effect on the efficiency. With a small Gaussian noise value $0.1$, the policy becomes a little less efficient. However, with a big Gaussian noise value $1$, the robot barely can figure out a solution. 
 
 ### 3. Implement `RTDP2`, a variant of RTDP that handles this stochastic reward by computing the model $\hat{r}$ of the mean reward for each state and action (like in equation $(17)$ for $\hat{P}$).
 
