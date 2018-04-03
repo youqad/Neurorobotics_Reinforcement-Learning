@@ -17,11 +17,11 @@ tags:
 abstract: 'Lab: Reinforcement Learning'
 ---
 
-**Lecturer**: Nicolas Perrin
+# Tutorial 1: Reinforcement Learning
 
+### Kexin Ren & Younesse Kaddar (**Lecturer**: Nicolas Perrin)
 
 # 1. Markov Decision Problems
-
 
 Our problem is a Markov Decision Problems (MDP) which is described by a tuple $(𝒳, 𝒰, 𝒫_0, 𝒫,r,γ)$ where $𝒳$ is the state-space, $𝒰$ the action-space, $𝒫_0$ the distribution of the initial state, $𝒫$ the transition function, $r$ the reward function, and $γ ∈ [0, 1]$ a parameter called the discount factor.
 
