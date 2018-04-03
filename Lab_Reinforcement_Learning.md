@@ -543,13 +543,20 @@ This makes sense because for the rightmost column and the bottom row, there is o
 
 ### 4. Compare the state-value function and the policy computed using $Q$-Learning with the ones you obtained with `VI` and `PI`.
 
+**NB**: in this question, for convenience, the old reward function is referred to (which amounts to zero everywhere except on state $16$ when the robot doesn't move (in which case it is set to be $1$))
+
 **Regarding the policy**:
 
 - on the one hand, `VI` and `PI` are deterministic algorithms, always ouputting the *optimal* (up to the precision of `np.linalg.norm(Q-Qold) == 0` and `np.array_equal(pol, pol_old)`) policy: we exploration/exploitation tradeoff is dealt with by the discount factor $γ$
 
-- on the other hand, $Q$-Learning generates a policy (converging to the optimal one as `nbIter` increases) non-deterministically: on top of the discount factor $γ$, there is another layer which has an impact on the exploration/exploitation tradoff: the softmax policy used to draw the samples that enable us to update the $Q$-function
+- on the other hand, $Q$-Learning generates a policy (converging to the optimal one as `nbIter` increases) non-deterministically: on top of the discount factor $γ$, there is another layer which has an impact on the exploration/exploitation tradoff: the softmax policy used to draw the very samples that enable us to update the $Q$-function
 
-Regarding the state-value function, the results may differ for every trial of $Q$-Learning depending on the stochastic experience of the robot, while the results remain the same each time for `VI` and `PI` depending only on the fixed computational process; moreover, the state-value matrices of `VI` and `PI` look more neat, for example, with smaller value range (usually 13 - 20), and the actions towarding state 16 must lead to a higher value correspondingly. However, the state-value matix of $Q$-Learning looks more "messy" with disparity in value magnitude and no certain relationship between the value and direction towarding state 16.
+**Regarding the state-value function**:
+
+- the results may differ for every trial of $Q$-Learning depending on the stochastic experience of the robot, while the results remain the same each time for `VI` and `PI` (which are deterministic).
+
+- moreover, the state-value matrices of `VI` and `PI` have coefficients that don't vary "too much": they range over smaller values (usually $13$ - $20$), and the actions towards the high-reward state $16$ lead to a higher value, as expected. On the contrary, the state-value matix of $Q$-Learning usually presents (with respect to its coefficients) more discrepancies: with disparity in value magnitude and sometimes no apparent correlation between the value and direction towards the high-reward state $16$.
+
 
 # 4. Model-Based Reinforcement Learning (MBRL)
 
@@ -615,7 +622,7 @@ def MDPStep(self,x,u,sigma=0.1):
     return [y,r]
 ```
 
-The noise in reward has an effect on the efficiency: with a small Gaussian noise value such as $0.1$, the policy becomes a little less efficient. However, with a big Gaussian noise value such as $1$, the robot barely can figure out a solution to approach the state 16.
+The noise in reward have an effect on the efficiency. With a small Gaussian noise value $0.1$, the policy becomes a little less efficient. However, with a big Gaussian noise value $1$, the robot barely can figure out a solution.
 
 ### 3. Implement `RTDP2`, a variant of RTDP that handles this stochastic reward by computing the model $\hat{r}$ of the mean reward for each state and action (like in equation $(17)$ for $\hat{P}$).
 
