@@ -98,6 +98,7 @@ class mdp():
     def PI(self):
         Q = np.empty((self.nX, self.nU))
         pol = N*np.ones(self.nX, dtype=np.int16)
+        I = np.eye((self.nX))
         R = np.zeros(self.nX)
         P = np.zeros((self.nX, self.nX))
         quitt = False
