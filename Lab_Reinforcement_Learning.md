@@ -386,7 +386,7 @@ By
     ```
     in the `TD` method, just before the return, to sort the states according to their estimated value (in increasing order)
 
-it appears the estimated values are sorted as follows:
+it appears that the estimated values are sorted as follows:
 
 $$
 \begin{align*}
@@ -407,9 +407,27 @@ which makes perfect sense, intuitively.
 
 
 
-
-
-
 ### 3. Write a function `compare` that takes in input a state value function $V$, a policy $π$, a state-action value function $Q$, and returns `True` if and only if $V$ and $Q$ are consistent with respect to $π$ up to some precision, i.e. if $∀x ∈ 𝒳, V^π(x) = Q^π(x, π(x)) ± ε$.
 
+We are asked to program a function which test if $∀x ∈ 𝒳, \vert V^π(x) - Q^π(x, π(x)) \vert ≤ ε_{max}$, for a threshold value $ε_{max}$: i.e. if the infinity norm of the difference of the vectors is smaller than $ε_{max}$.
+
+```python
+def compare(self,V,Q,pol,eps=0.0001):
+    Q_pol = np.array([[Q[x, pol[x]]] for x in range(V.size)])
+    return np.linalg.norm(V-Q_pol, ord=np.inf)<eps
+```
+
 ### 4. Use the `compare` function to verify that $TD(0)$ converges towards the proper value function, using it on the policy returned by `VI` or `PI`.
+
+```python
+[Q1,pol1] = m.VI()
+[Q2,pol2] = m.PI()
+
+V1 = m.TD(pol1)
+V2 = m.TD(pol2)
+
+print(m.compare(V1,Q1,pol1))
+print(m.compare(V2,Q2,pol2))
+```
+
+yields `True` and `True`, so $TD(0)$ does converge towards the proper value function.

@@ -117,7 +117,6 @@ class mdp():
             for i in range(self.nX):
                 for j in range(self.nU):
                     Q[i,j] = self.r[i,j] + self.gamma * np.sum(self.P[i,j,:] * V)
-                    print(Q[i,j])
 
             pol_old = pol.copy()
             pol = np.argmax(Q, axis=1)
@@ -137,7 +136,7 @@ class mdp():
             x = np.floor(self.nX*np.random.random()).astype(int)
             [y, r] = self.MDPStep(x, pol[x])
             V[x] += alpha * (r + self.gamma * V[y] - V[x])
-        print(np.argsort(V,axis=0))
+        # print(np.argsort(V,axis=0))
         return V
 
     def discreteProb(self,p):
@@ -161,11 +160,10 @@ class mdp():
         r = self.r[x,u] # r is be the reward of the transition
         return [y,r]
 
-    def compare(self,V,Q,pol):
-       sumval = 0
-       #for i in range(V.size):
-       #    sumval += abs(V[i] - Q[i,pol[i]])
-       return sumval
+    def compare(self,V,Q,pol,eps=0.0001):
+        Q_pol = np.array([[Q[x, pol[x]]] for x in range(V.size)])
+        return np.linalg.norm(V-Q_pol, ord=np.inf)<eps
+
 
 ##################-Q-LEARNING-############
 

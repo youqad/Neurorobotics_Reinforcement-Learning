@@ -14,12 +14,10 @@ m = mdp()
 #[V,pol] = m.RTDP()
 #[V,pol] = m.RTDP2()
 
-V = m.TD(pol)
+V = m.TD(pol1)
 
-#print Q
+print(m.compare(V,Q,pol))
 
-#print m.compare(V,Q,pol)
-
-print(pol)
+#print(pol)
 
 plotPolicy(m,np.transpose(np.array([pol])))
