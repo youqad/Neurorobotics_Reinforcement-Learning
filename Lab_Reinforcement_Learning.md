@@ -244,7 +244,7 @@ On the contrary, with the more exploratory policy: apart from the states $0, 1$ 
 To implement stochastic transition, we use the first state and the seventh state as expamples by the following codes (tried to make every state stochastic but that goes too complecated when one stochastic state is enough to expound this question):
 
 ```python
-  pos = np.random.rand(5)	
+  pos = np.random.rand(5)
   n = 0 #n = 0 for 1st state, n = 6 for 7th state
   for i in range(self.nU):
 		self.P[n,i,np.where(self.P[n,i,:]==1)]=pos[i]/sum(pos)
@@ -374,7 +374,7 @@ def TD(self,pol):
     nbIter = 100000
     alpha = 0.1
     for i in range(nbIter):
-        x = np.floor(self.nX*np.random.random())
+        x = np.floor(self.nX*np.random.random()).astype(int)
         [y, r] = self.MDPStep(x, pol[x])
         V[x] += alpha * (r + self.gamma * V[y] - V[x])
     return V
@@ -483,7 +483,7 @@ def QLearning(self,tau):
     alpha = 0.01
     for i in range(nbIter):
         # Draw a random state
-        x = np.floor(self.nX*np.random.random())
+        x = np.floor(self.nX*np.random.random()).astype(int)
 
         # Draw an action using a soft-max policy
         u = self.discreteProb(self.softmax(Q,x,tau))
@@ -542,8 +542,8 @@ def RTDP(self):
 
     for iterr in range(nbIter):
         # Draw a random pair of state and action
-        x = np.floor(self.nX*np.random.random())
-        u = np.floor(self.nU*np.random.random())
+        x = np.floor(self.nX*np.random.random()).astype(int)
+        u = np.floor(self.nU*np.random.random()).astype(int)
 
         # One step of the MDP for this state-action pair
         [y,r] = self.MDPStep(x,u)

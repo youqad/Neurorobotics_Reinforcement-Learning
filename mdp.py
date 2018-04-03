@@ -191,7 +191,7 @@ class mdp():
         alpha = 0.01
         for i in range(nbIter):
             # Draw a random state
-            x = np.floor(self.nX*np.random.random())
+            x = np.floor(self.nX*np.random.random()).astype(int)
 
             # Draw an action using a soft-max policy
             u = self.discreteProb(self.softmax(Q,x,tau))
@@ -220,8 +220,8 @@ class mdp():
 
         for iterr in range(nbIter):
             # Draw a random pair of state and action
-            x = np.floor(self.nX*np.random.random())
-            u = np.floor(self.nU*np.random.random())
+            x = np.floor(self.nX*np.random.random()).astype(int)
+            u = np.floor(self.nU*np.random.random()).astype(int)
 
             # One step of the MDP for this state-action pair
             [y,r] = self.MDPStep(x,u)
@@ -255,7 +255,7 @@ class mdp():
 
         for iterr in range(nbIter):
             x = "?"
-            #u = np.floor(self.nU*np.random.random())
+            #u = np.floor(self.nU*np.random.random()).astype(int)
             #[y,r] = self.MDPStep(x,u)
             #hatP[x,u,:] = "?"
             #hatR[x,u]= "?"
