@@ -134,15 +134,17 @@ class mdp():
         nbIter = 100000
         alpha = 0.1
         for i in range(nbIter):
-            x = np.floor(self.nX*np.random.random())
-            [y,r] = self.MDPStep(x,pol[x])
-            #V[x] = "?"
-        #print np.argsort(V,axis=0)
+            x = np.floor(self.nX*np.random.random()).astype(int)
+            [y, r] = self.MDPStep(x, pol[x])
+            V[x] += alpha * (r + self.gamma * V[y] - V[x])
+        print(np.argsort(V,axis=0))
         return V
 
     def discreteProb(self,p):
         # Draw a random number using probability table p (column vector)
-        # Suppose probabilities p=[p(1) ... p(n)] for the values [1:n] are given, sum(p)=1 and the components p(j) are nonnegative. To generate a random sample of size m from this distribution imagine that the interval (0,1) is divided into intervals with the lengths p(1),...,p(n). Generate a uniform number rand, if this number falls in the jth interval give the discrete distribution the value j. Repeat m times.
+        # Suppose probabilities p=[p(1) ... p(n)] for the values [1:n] are given, sum(p)=1 and the components p(j) are nonnegative.
+        # To generate a random sample of size m from this distribution imagine that the interval (0,1) is divided into intervals with the lengths p(1),...,p(n).
+        # Generate a uniform number rand, if this number falls in the jth interval give the discrete distribution the value j. Repeat m times.
         r = np.random.random()
         cumprob=np.hstack((np.zeros(1),p.cumsum()))
         sample = -1
@@ -153,10 +155,10 @@ class mdp():
         return sample
 
     def MDPStep(self,x,u):
-	# This function executes a step on the MDP M given current state x and action u.
+	    # This function executes a step on the MDP M given current state x and action u.
         # It returns a next state y and a reward r
-        y = "?" # y should be sampled according to the discrete distribution self.P[x,u,:]
-        r = "?" # r should be the reward of the transition
+        y = self.discreteProb(self.P[x,u,:]) # y is sampled according to the distribution self.P[x,u,:]
+        r = self.r[x,u] # r is be the reward of the transition
         return [y,r]
 
     def compare(self,V,Q,pol):

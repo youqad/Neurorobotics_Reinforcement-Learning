@@ -161,7 +161,7 @@ $$\begin{cases}
 
 It stems from the above that:
 
-$$Q^\ast = r(x, u) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, u, y) \underbrace{V^\ast(y)}_{= \, \max_u Q^\ast(x, u)}$$
+$$Q^\ast = r(x, u) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, u, y) \underbrace{V^\ast(y)}_{= \, \max_u Q^\ast(x, u)} \qquad ⊛$$
 
 out of which we get a recursive algorithm to compute $Q^\ast$:
 
@@ -232,8 +232,8 @@ Here, there are two different optimal policies, depending on the value of $γ$:
 
 |Value of $γ$|Optimal Policy|
 -|-
-**Greedier policy**: $γ < γ_0 ≝ \sqrt{0.9}$|![](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
-**More exploratory policy**: $γ ≥ γ_0$|![](https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png)
+**Greedier policy**: $γ < γ_0 ≝ \sqrt{0.9}$|![Gamma_smaller_than_square_root_0.9 ](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
+**More exploratory policy**: $γ ≥ γ_0$|![Gamma_greater_than_square_root_0.9 ](https://i.gyazo.com/c2672fedffe41477ec1e465379986ecb.png)
 
 
 When it comes to the greedier policy: for states close to the state $5$ (denoted by $6$ on the pictures), the robot tends to head to the state $5$, even if its reward ($=0.9$) is inferior the reward ($=1$) of the state $15$ (denoted by $16$ on the pictures)
@@ -250,7 +250,7 @@ TODO
 
 By definition of the state value function of a given policy $π$, we have:
 
-$$V^π(x) = r(x, π(x)) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, π(x), y) V^π(y)$$
+$$V^π(x) = r(x, π(x)) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, π(x), y) V^π(y) \qquad ⊛⊛$$
 
 But as $𝒳$ is finite: by setting $\textbf{V}_π$ (resp. $\textbf{R}_π$) to be the vector-matrix $(V^π(x))_{x ∈ 𝒳}$ (resp. $(r(x, π(x)))_{x ∈ 𝒳}$), and
 
@@ -309,5 +309,107 @@ def PI(self):
     return [Q, pol]
 ```
 
+TODO: comparing convergences
 
-# 3. Reinforcement Learning
+# 3. Reinforcement Learning: Model-free approaches
+
+## 3.1. Temporal Difference Learning (TD-learning)
+
+Based on $⊛$ and $⊛⊛$, we get:
+
+$$\begin{cases}
+V^π(x) = 𝔼\left[r(x, π(x)) + γ V^π(y) \mid y \sim 𝒫(x, π(x), \bullet)\right] &&(11)\\
+Q^\ast(x, u) = 𝔼\left[r(x, u) + γ \max_v Q^\ast(y, v) \mid y \sim 𝒫(x, u, \bullet)\right] &&(12)\\
+\end{cases}$$
+
+as a result of which we define the *temporal difference errors* (TD errors):
+
+$$\begin{cases}
+δ_{V^π}(x) ≝ 𝔼\left[r(x, π(x)) + γ V^π(y) - V^π(x) \mid y \sim 𝒫(x, π(x), \bullet)\right] &&(13)\\
+δ_{Q^\ast}(x, u) ≝ 𝔼\left[r(x, u) + γ \max_v Q^\ast(y, v) - Q^\ast(x, u) \mid y \sim 𝒫(x, u, \bullet)\right] &&(14)\\
+\end{cases}$$
+
+
+## 3.2. TD(0)
+
+At time $t$, we denote by
+
+- $V^{(t})$ the estimation of the state value function
+- $x_t$ the current state
+- <span>$δ_t ≝ δ_{V^{(t)}}(x_t)$</span>
+- $α$ the learning rate
+
+From the $δ$-rule, the following update of the state value function can be derived:
+
+$$V^{(t+1)}(x_t) = V^{(t)}(x_t) + α \underbrace{δ_t}_{\rlap{≝ \; r(x_t, u_t) + γ V^{(t)}(x_{t+1}) - V^{(t)}(x_t)}} \quad\qquad (15)$$
+
+
+### 1. Open the file `mdp.py`, and implement a function called `MDPStep`. This function returns a next state and a reward given a state and an action. *Hint*: To draw a number according to a vector of probabilities, you can use the function `discreteProb`.
+
+```python
+def MDPStep(self,x,u):
+    # This function executes a step on the MDP M given current state x and action u.
+    # It returns a next state y and a reward r
+    y = self.discreteProb(self.P[x,u,:]) # y is sampled according to the distribution self.P[x,u,:]
+    r = self.r[x,u] # r is be the reward of the transition
+    return [y,r]
+```
+
+
+### 2. Fill-in the missing lines in the `TD` function, which implements $TD(0)$. To obtain samples from MDP, you will use the `MDPStep` function
+
+```python
+def TD(self,pol):
+    V = np.zeros((self.nX,1))
+    nbIter = 100000
+    alpha = 0.1
+    for i in range(nbIter):
+        x = np.floor(self.nX*np.random.random())
+        [y, r] = self.MDPStep(x, pol[x])
+        V[x] += alpha * (r + self.gamma * V[y] - V[x])
+    return V
+```
+
+By
+
+- modifying `run.py` so that on computes:
+
+    ```python
+    [Q,pol] = m.PI()
+    V = m.TD(pol)
+    ```
+
+- and adding the line
+
+    ```python
+    print(np.argsort(V,axis=0))
+    ```
+    in the `TD` method, just before the return, to sort the states according to their estimated value (in increasing order)
+
+it appears the estimated values are sorted as follows:
+
+$$
+\begin{align*}
+    \quad & V^π(1) \;\, ≤ V^π(3) \;\, ≤ V^π(9) \;\, ≤ \;\,  V^π(4)\\
+    ≤ \; & V^π(13) ≤ V^π(2) \;\, ≤ V^π(5) \;\, ≤ V^π(7)\\
+    ≤ \; & V^π(10) ≤ V^π(8) \;\, ≤ V^π(11) ≤ V^π(14)\\
+    ≤ \; & V^π(6) \;\, ≤ V^π(12) ≤ V^π(15) ≤ V^π(16)
+\end{align*}
+$$
+
+for
+
+- the deterministic transition function and the reward function of question **2.1.3.** (the reward is null everywhere except at state $5$ (where it amounts to $0.9$) and state $15$ (where it amounts to $1$) when the robot doesn't move)
+
+- the following policy ($γ < \sqrt{0.9}$): ![Gamma_smaller_than_square_root_0.9 ](https://i.gyazo.com/58a8c0b73b861fef7e78968862a88a01.png)
+
+which makes perfect sense, intuitively.
+
+
+
+
+
+
+### 3. Write a function `compare` that takes in input a state value function $V$, a policy $π$, a state-action value function $Q$, and returns `True` if and only if $V$ and $Q$ are consistent with respect to $π$ up to some precision, i.e. if $∀x ∈ 𝒳, V^π(x) = Q^π(x, π(x)) ± ε$.
+
+### 4. Use the `compare` function to verify that $TD(0)$ converges towards the proper value function, using it on the policy returned by `VI` or `PI`.
