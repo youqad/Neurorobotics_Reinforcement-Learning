@@ -431,3 +431,69 @@ print(m.compare(V2,Q2,pol2))
 ```
 
 yields `True` and `True`, so $TD(0)$ does converge towards the proper value function.
+
+## 3.3. Q-Learning
+
+In accordance with the softmax-policy:
+
+$$π^{(t)}(u \mid x) ≝ \frac{\exp(Q^{(t)}(x, u)/τ)}{\sum\limits_{ v ∈ 𝒰 } \exp(Q^{(t)}(x, v)/τ)}$$
+
+we update the state-action value function as follows:
+
+$$Q^{(t+1)}(x_t, u_t) = Q^{(t)}(x_t, u_t) + α \left[r(x_t, u_t) + γ \max_{u_{t+1} ∈ 𝒰} Q^{(t)}(x_{t+1}, u_{t+1}) - Q^{(t)}(x_t, u_t)\right] \qquad (16)$$
+
+### 1. Implement the function `softmax` that returns the soft-max policy.
+
+```python
+def softmax(self,Q,x,tau):
+    # Returns a soft-max probability distribution over actions
+    # Inputs :
+    # - Q : a Q-function reprensented as a nX times nU matrix
+    # - x : the state for which we want the soft-max distribution
+    # - tau : temperature parameter of the soft-max distribution
+    # Output :
+    # - p : probabilty of each action according to the soft-max distribution
+    # (column vector of length nU)
+
+    p = np.exp(Q[x,:]/tau)
+    return p/np.sum(p)
+```
+
+### 2. Fill-in the missing lines to implement the `QLearning` function.
+
+```python
+def QLearning(self,tau):
+    # This function computes the optimal state-value function and the corresponding policy using Q-Learning
+
+    # Initialize the state-action value function
+    Q = np.zeros((self.nX,self.nU))
+
+    # Run learning cycle
+    nbIter = 100000
+    alpha = 0.01
+    for i in range(nbIter):
+        # Draw a random state
+        x = np.floor(self.nX*np.random.random())
+
+        # Draw an action using a soft-max policy
+        u = self.discreteProb(self.softmax(Q,x,tau))
+
+        # Perform a step of the MDP
+        [y,r] = self.MDPStep(x, u)
+
+        # Update the state-action value function with Q-Learning
+        Q[x,u] += alpha * (r + self.gamma * np.max(Q[y,:]) - Q[x,u])
+
+    # Compute the corresponding policy
+    Qmax = Q.max(axis=1)
+    pol =  np.argmax(Q,axis=1)
+    return [Qmax,pol]
+```
+
+### 3. Run Q-Learning several times. What do you observe?
+
+TODO
+
+### 4. Compare the state-value function and the policy computed using Q-Learning with the ones you obtained with VI and PI.
+
+TODO

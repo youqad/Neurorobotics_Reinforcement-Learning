@@ -175,11 +175,10 @@ class mdp():
         # - tau : temperature parameter of the soft-max distribution
         # Output :
         # - p : probabilty of each action according to the soft-max distribution
-        #(column vector of length nU)
+        # (column vector of length nU)
 
-        p = np.zeros((self.nU))
-        '...'
-        return p
+        p = np.exp(Q[x,:]/tau)
+        return p/np.sum(p)
 
     def QLearning(self,tau):
         # This function computes the optimal state-value function and the corresponding policy using Q-Learning
@@ -198,10 +197,10 @@ class mdp():
             u = self.discreteProb(self.softmax(Q,x,tau))
 
             # Perform a step of the MDP
-            #[y,r] = "?"
+            [y,r] = self.MDPStep(x, u)
 
             # Update the state-action value function with Q-Learning
-            #Q[x,u] = "?"
+            Q[x,u] += alpha * (r + self.gamma * np.max(Q[y,:]) - Q[x,u])
 
         # Compute the corresponding policy
         Qmax = Q.max(axis=1)
