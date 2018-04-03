@@ -543,9 +543,13 @@ This makes sense because for the rightmost column and the bottom row, there is o
 
 ### 4. Compare the state-value function and the policy computed using $Q$-Learning with the ones you obtained with `VI` and `PI`.
 
-Regarding the policy, `VI` and `PI` generate deterministic policies, while $Q$-Learning generates a stochastic one.
+**Regarding the policy**:
 
-Regarding the state-value function, the results may differ for every trial of Q-Learning depending on the stochastic experience of the robot, while the results keep the same every trial for VI and PI depending only on the fixed computational process; moreover, the state-value matrices of VI and PI look more neat, for example, with smaller value range (usually 13 - 20), and the actions towarding state 16 must lead to a higher value correspondingly. However, the state-value matix of Q-Learning looks more "messy" with disparity in value magnitude and no certain relationship between the value and direction towarding state 16.
+- on the one hand, `VI` and `PI` are deterministic algorithms, always ouputting the *optimal* (up to the precision of `np.linalg.norm(Q-Qold) == 0` and `np.array_equal(pol, pol_old)`) policy: we exploration/exploitation tradeoff is dealt with by the discount factor $γ$
+
+- on the other hand, $Q$-Learning generates a policy (converging to the optimal one as `nbIter` increases) non-deterministically: on top of the discount factor $γ$, there is another layer which has an impact on the exploration/exploitation tradoff: the softmax policy used to draw the samples that enable us to update the $Q$-function
+
+Regarding the state-value function, the results may differ for every trial of $Q$-Learning depending on the stochastic experience of the robot, while the results remain the same each time for `VI` and `PI` depending only on the fixed computational process; moreover, the state-value matrices of `VI` and `PI` look more neat, for example, with smaller value range (usually 13 - 20), and the actions towarding state 16 must lead to a higher value correspondingly. However, the state-value matix of $Q$-Learning looks more "messy" with disparity in value magnitude and no certain relationship between the value and direction towarding state 16.
 
 # 4. Model-Based Reinforcement Learning (MBRL)
 
