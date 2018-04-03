@@ -241,8 +241,18 @@ When it comes to the greedier policy: for states close to the state $5$ (denoted
 On the contrary, with the more exploratory policy: apart from the states $0, 1$ and $4$ (which are one step away from the state $5$), the robot favors the state $15$, i.e. the long-term bigger reward over the smaller yet *closer* (*for the states $2, 6, 8$ and $9$*) reward of the state $5$.
 
 ### 4. Change `self.P` to implement stochastic (non-deterministic) transitions. Use comments in the code to describe the transitions you chose and the results you observed while running `VI` on the new transitions you defined.
+To implement stochastic transition, we use the first state and the seventh state as expamples by the following codes (tried to make every state stochastic but that goes too complecated when one stochastic state is enough to expound this question):
 
-TODO
+```python
+  pos = np.random.rand(5)	
+  n = 0 #n = 0 for 1st state, n = 6 for 7th state
+  for i in range(self.nU):
+		self.P[n,i,np.where(self.P[n,i,:]==1)]=pos[i]/sum(pos)
+ ```
+We found that, when the first step (at state 0) is stochastic, the result is the same as the deterministic one (as shown in Figure 2.1.4.1) which makes sense because all routes will actually weight the same under these conditions; when the 7th state (state 6) is stochastic, no neighbor state of state 6 will choose to go through state 6 (as shown in Figure 2.1.4.2), becuase there are posibilities of going "backwards" (i.e. not toward to the final state, state 15) on state 6 which will reduce the Q of other states moving to state 6.
+
+![Figure 2.1.4.1](https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/2.png?raw=true "Figure 2.1.4.1")
+![Figure 2.1.4.2](https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/1.png?raw=true "Figure 2.1.4.2")
 
 
 ## 2.2. Policy Iteration
@@ -309,7 +319,7 @@ def PI(self):
     return [Q, pol]
 ```
 
-TODO: comparing convergences
+We compared the convergences of VI and PI and found that, VI algorithm converges after 667 iterations while the PI algorithm converges after 3 iterations, supporting that PI is more efficient than VI.
 
 # 3. Reinforcement Learning: Model-free approaches
 
