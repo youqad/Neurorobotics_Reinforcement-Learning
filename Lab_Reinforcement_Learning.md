@@ -505,7 +505,7 @@ We found that the policy is stochastic, except that for the rightmost column (i.
 
 ### 4. Compare the state-value function and the policy computed using Q-Learning with the ones you obtained with VI and PI.
 
-Regarding the policy, VI and PI generate deterministic policy, while Q-Learning generate a stochastic one. 
+Regarding the policy, VI and PI generate deterministic policy, while Q-Learning generate a stochastic one.
 Regarding the state-value function, the results may differ for every trial of Q-Learning depending on the stochastic experience of the robot, while the results keep the same every trial for VI and PI depending only on the fixed computational process; moreover, the state-value matrices of VI and PI look more neat, for example, with smaller value range (usually 13 - 20), and the actions towarding state 16 must lead to a higher value correspondingly. However, the state-value matix of Q-Learning looks more "messy" with disparity in value magnitude and no certain relationship between the value and direction towarding state 16.
 
 # 4. Model-Based Reinforcement Learning (MBRL)
@@ -575,6 +575,11 @@ def MDPStep(self,x,u,sigma=0.1):
 TODO : what happens if sigma=1
 
 ### 3. Implement `RTDP2`, a variant of RTDP that handles this stochastic reward by computing the model $\hat{r}$ of the mean reward for each state and action (like in equation $(17)$ for $\hat{P}$).
+
+The mean reward $\hat{r}$ is computed as follows (with the same notations as before):
+
+$$\hat{r}^{(t+1)}(x_t, u_t) ≝ \frac{(N_t(x_t, u_t) - 1) \hat{r}^{(t)}(x_t, u_t) + r_t}{N_t(x_t, u_t)} \qquad (18)$$
+
 
 ```python
 def RTDP2(self):
