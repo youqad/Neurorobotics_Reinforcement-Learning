@@ -218,14 +218,15 @@ def VI(self):
     return [Q,pol]
 ```
 
-and by running `python run.py`, the following figure is displayed:
+and by running `python run.py`, the following policy figure is displayed:
 
 <img src="https://i.gyazo.com/92851318f58af7b738c8b2c875ae38f7.png" alt="VI" style="width: 60%; margin-left: 20%;"/>
 
+which makes sense, since the state $15$ (denoted by $16$ on the figure) is the most attractive with its reward of $1$ (whereas the other states have a zero reward).
 
 ### 3. *Add a second goal:* modify the reward function to give $0.9$ when the robot is in state $5$ and does not move. Explain when and why the robot chooses to go to this new goal instead of the first one. Explain what parameter is responsible of this behaviour.
 
-The choice of the discount factor $γ$ is a tradeoff between exploration (exploring farther states) and exploitation/greediness (exploiting the rewards of the nearby one). As it happens: the smaller the parameter $γ$, the more the robot tends to exploit the closest state associated with a (strictly) positive reward (even if there might be a state farther on which a given action leads to a bigger reward).
+The discount factor $γ$ determines a tradeoff between exploration (exploring farther states) and exploitation/greediness (exploiting the rewards of the nearby one). As it happens: the smaller the parameter $γ$, the more the robot tends to exploit the closest state associated with a (strictly) positive reward (even if there might be a state farther on which a given action leads to a bigger reward).
 
 Here, there are two different optimal policies, depending on the value of $γ$:
 
@@ -241,14 +242,16 @@ When it comes to the greedier policy: for states close to the state $5$ (denoted
 On the contrary, with the more exploratory policy: apart from the states $0, 1$ and $4$ (which are one step away from the state $5$), the robot favors the state $15$, i.e. the long-term bigger reward over the smaller yet *closer* (*for the states $2, 6, 8$ and $9$*) reward of the state $5$.
 
 ### 4. Change `self.P` to implement stochastic (non-deterministic) transitions. Use comments in the code to describe the transitions you chose and the results you observed while running `VI` on the new transitions you defined.
-To implement stochastic transition, we use the first state and the seventh state as expamples by the following codes (tried to make every state stochastic but that goes too complecated when one stochastic state is enough to expound this question):
+
+To implement stochastic transition, we use the first state and the seventh state as examples, with the following code (having non-deterministic transitions for every state overcomplicate things: one state with non-deterministic transitions is enough to have a good idea of what's going on):
 
 ```python
   pos = np.random.rand(5)
-  n = 0 #n = 0 for 1st state, n = 6 for 7th state
+  n = 0 # n = 0 for 1st state, n = 6 for 7th state
   for i in range(self.nU):
 		self.P[n,i,np.where(self.P[n,i,:]==1)]=pos[i]/sum(pos)
  ```
+
 We found that, when the first step (at state 0) is stochastic, the result is the same as the deterministic one (as shown in Figure 2.1.4.1) which makes sense because all routes will actually weight the same under these conditions; when the 7th state (state 6) is stochastic, no neighbor state of state 6 will choose to go through state 6 (as shown in Figure 2.1.4.2), becuase there are posibilities of going "backwards" (i.e. not toward to the final state, state 15) on state 6 which will reduce the Q of other states moving to state 6.
 
 ![Figure 2.1.4.1](https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/2.png?raw=true "Figure 2.1.4.1")
@@ -574,7 +577,7 @@ def MDPStep(self,x,u,sigma=0.1):
     return [y,r]
 ```
 
-The noise in reward have an effect on the efficiency. With a small Gaussian noise value $0.1$, the policy becomes a little less efficient. However, with a big Gaussian noise value $1$, the robot barely can figure out a solution. 
+The noise in reward have an effect on the efficiency. With a small Gaussian noise value $0.1$, the policy becomes a little less efficient. However, with a big Gaussian noise value $1$, the robot barely can figure out a solution.
 
 ### 3. Implement `RTDP2`, a variant of RTDP that handles this stochastic reward by computing the model $\hat{r}$ of the mean reward for each state and action (like in equation $(17)$ for $\hat{P}$).
 
