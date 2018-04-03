@@ -502,12 +502,12 @@ def QLearning(self,tau):
 
 ### 3. Run Q-Learning several times. What do you observe?
 
-TODO
+We found that the policy is stochastic, except that for the rightmost column (i.e. 13, 14 and 15), bottom row (i.e. state 4, 8, 12) and of course, state 16, the policy is fixed. The states in rightmost column always take South action towarding state 16, while the states in bottom row always take East action towarding state 16. This makes sense because for the rightmost column and bottom row, there is only one choice of action (or direction) for them which will go toward to state 16, and the robot will learn the only right direction when soft-max is applied. Unlike states in these two lines, other states behaviour in a stochastic way as a stochastic strategy is used in the algorithm.
 
 ### 4. Compare the state-value function and the policy computed using Q-Learning with the ones you obtained with VI and PI.
 
-TODO
-
+Regarding the policy, VI and PI generate deterministic policy, while Q-Learning generate a stochastic one. 
+Regarding the state-value function, the results may differ for every trial of Q-Learning depending on the stochastic experience of the robot, while the results keep the same every trial for VI and PI depending only on the fixed computational process; moreover, the state-value matrices of VI and PI look more neat, for example, with smaller value range (usually 13 - 20), and the actions towarding state 16 must lead to a higher value correspondingly. However, the state-value matix of Q-Learning looks more "messy" with disparity in value magnitude and no certain relationship between the value and direction towarding state 16.
 
 # 4. Model-Based Reinforcement Learning (MBRL)
 
