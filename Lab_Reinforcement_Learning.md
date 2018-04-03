@@ -246,16 +246,25 @@ On the contrary, with the more exploratory policy: apart from the states $0, 1$ 
 To implement stochastic transition, we use the first state and the seventh state as examples, with the following code (having non-deterministic transitions for every state overcomplicate things: one state with non-deterministic transitions is enough to have a good idea of what's going on):
 
 ```python
-  pos = np.random.rand(5)
-  n = 0 # n = 0 for 1st state, n = 6 for 7th state
-  for i in range(self.nU):
-		self.P[n,i,np.where(self.P[n,i,:]==1)]=pos[i]/sum(pos)
- ```
+pos = np.random.rand(5)
+n = 0 # n = 0 for 1st state, n = 6 for 7th state
+for i in range(self.nU):
+	self.P[n,i,np.where(self.P[n,i,:]==1)]=pos[i]/sum(pos)
+```
 
-We found that, when the first step (at state 0) is stochastic, the result is the same as the deterministic one (as shown in Figure 2.1.4.1) which makes sense because all routes will actually weight the same under these conditions; when the 7th state (state 6) is stochastic, no neighbor state of state 6 will choose to go through state 6 (as shown in Figure 2.1.4.2), becuase there are posibilities of going "backwards" (i.e. not toward to the final state, state 15) on state 6 which will reduce the Q of other states moving to state 6.
+**NB**: for convenience we'll call a state out of which the transition function is non-deterministic a *stochastic state*.
 
-![Figure 2.1.4.1](https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/2.png?raw=true "Figure 2.1.4.1")
-![Figure 2.1.4.2](https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/1.png?raw=true "Figure 2.1.4.2")
+We found that, when the first step (at state $0$) is stochastic, the result is the same as the deterministic one (as shown in *Figure 2.1.4.1*) which makes sense because all routes will actually weigh the same under these conditions; when the 7th state (state $6$) is stochastic, no neighboring state of state $6$ will have the agent (via the optimal policy) choose to go through state $6$ (as shown in *Figure 2.1.4.2*), because there is a possibility of going "backwards" (i.e. not towards to the most attractive state (due to its reward), state $15$) on state $6$, which will reduce the $Q$-value of other states heading for state $6$.
+
+<figure>
+  <img src="https://raw.githubusercontent.com/youqad/Neurorobotics_Reinforcement-Learning/master/2.png" alt="Figure 2.1.4.1">
+  <figcaption><em>Figure 2.1.4.1</em> - </figcaption>
+</figure>
+
+<figure>
+  <img src="https://raw.githubusercontent.com/youqad/Neurorobotics_Reinforcement-Learning/master/1.png" alt="Figure 2.1.4.2">
+  <figcaption><em>Figure 2.1.4.2</em> - </figcaption>
+</figure>
 
 
 ## 2.2. Policy Iteration
