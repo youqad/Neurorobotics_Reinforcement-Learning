@@ -319,7 +319,7 @@ def PI(self):
     return [Q, pol]
 ```
 
-We compared the convergences of VI and PI and found that, VI algorithm converges after 667 iterations while the PI algorithm converges after 3 iterations, supporting that PI is more efficient than VI.
+We compared the convergences of VI and PI and found that, VI algorithm converges after 667 iterations while the PI algorithm converges after 3 iterations, supporting that PI is more efficient than VI (gamma is set as 0.95).
 
 # 3. Reinforcement Learning: Model-free approaches
 
