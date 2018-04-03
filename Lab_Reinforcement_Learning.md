@@ -252,7 +252,7 @@ By definition of the state value function of a given policy $π$, we have:
 
 $$V^π(x) = r(x, π(x)) + γ \sum\limits_{ y ∈ 𝒳 } 𝒫(x, π(x), y) V^π(y) \qquad ⊛⊛$$
 
-But as $𝒳$ is finite: by setting $\textbf{V}_π$ (resp. $\textbf{R}_π$) to be the vector-matrix $(V^π(x))_{x ∈ 𝒳}$ (resp. $(r(x, π(x)))_{x ∈ 𝒳}$), and
+But as $𝒳$ is finite: by setting <span>$\textbf{V}_π$ (resp. $\textbf{R}_π$) to be the vector-matrix $(V^π(x))_{x ∈ 𝒳}$ (resp. $(r(x, π(x)))_{x ∈ 𝒳}$)</span>, and
 
 $$\textbf{P}_π ≝ (𝒫(x, π(x), y))_{\substack{x ∈ 𝒳 \\ y ∈ 𝒳}}$$
 
@@ -372,7 +372,7 @@ def TD(self,pol):
 
 By
 
-- modifying `run.py` so that on computes:
+- modifying `run.py` so that one computes:
 
     ```python
     [Q,pol] = m.PI()
