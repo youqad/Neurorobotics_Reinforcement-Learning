@@ -243,6 +243,11 @@ On the contrary, with the more exploratory policy: apart from the states $0, 1$ 
 
 ### 4. Change `self.P` to implement stochastic (non-deterministic) transitions. Use comments in the code to describe the transitions you chose and the results you observed while running `VI` on the new transitions you defined.
 
+**NB**: in this question, for convenience
+
+- we'll call a state out of which the transition function is non-deterministic a *stochastic state*
+- we'll use the old reward, which amounts to zero everywhere except on state $15$ when the robot doesn't move (in which case it is set to be $1$)
+
 To implement stochastic transitions, we use the first state and the seventh state as examples, with the following code (having non-deterministic transitions for every state overcomplicate things: one state with non-deterministic transitions is enough to have a good idea of what's going on):
 
 ```python
@@ -252,7 +257,6 @@ for i in range(self.nU):
 	self.P[n,i,np.where(self.P[n,i,:]==1)]=pos[i]/sum(pos)
 ```
 
-**NB**: for convenience we'll call a state out of which the transition function is non-deterministic a *stochastic state*.
 
 We found that, when the first step (at state $0$) is stochastic, the result is the same as the deterministic one (as shown in *Figure 2.1.4.1*) which makes sense because all routes will actually weigh the same under these conditions; when the 7th state (state $6$) is stochastic, no neighboring state of state $6$ will have the agent (via the optimal policy) choose to go through state $6$ (as shown in *Figure 2.1.4.2*), because there is a possibility of going "backwards" (i.e. not towards to the most attractive state (due to its reward), state $15$) on state $6$, which will reduce the $Q$-value of other states heading for state $6$.
 
@@ -531,7 +535,9 @@ def QLearning(self,tau):
 
 ### 3. Run Q-Learning several times. What do you observe?
 
-We found that the policy is stochastic, except that for the rightmost column (i.e. 13, 14 and 15), bottom row (i.e. state 4, 8, 12) and of course, state 16, the policy is fixed. The states in rightmost column always take South action towarding state 16, while the states in bottom row always take East action towarding state 16. This makes sense because for the rightmost column and bottom row, there is only one choice of action (or direction) for them which will go toward to state 16, and the robot will learn the only right direction when soft-max is applied. Unlike states in these two lines, other states behaviour in a stochastic way as a stochastic strategy is used in the algorithm.
+**NB**: in this question, the numbering of the states is the displayed one (i.e. the states range from $1$ to $16$).
+
+We found that the policy is stochastic, except that for the rightmost column (i.e. 13, 14 and 15), bottom row (i.e. state 4, 8, 12) and of course, state 16, the policy is fixed. The states in rightmost column always take South action towards state 16, while the states in bottom row always take East action towarding state 16. This makes sense because for the rightmost column and bottom row, there is only one choice of action (or direction) for them which will go toward to state 16, and the robot will learn the only right direction when soft-max is applied. Unlike states in these two lines, other states behaviour in a stochastic way as a stochastic strategy is used in the algorithm.
 
 ### 4. Compare the state-value function and the policy computed using Q-Learning with the ones you obtained with VI and PI.
 
