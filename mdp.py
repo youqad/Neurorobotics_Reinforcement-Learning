@@ -219,15 +219,24 @@ class mdp():
         nbIter = 10000
 
         for iterr in range(nbIter):
-            x = "?"
-            #u = np.floor(self.nU*np.random.random())
-            #[y,r] = self.MDPStep(x,u)
-            #hatP[x,u,:] = "?"
-            #Qmax = Q.max(axis=1)
-            #Q[x,u] = "?"
-            #N[x,u] = N[x,u]+1
+            # Draw a random pair of state and action
+            x = np.floor(self.nX*np.random.random())
+            u = np.floor(self.nU*np.random.random())
 
-        Qmax =Q.max(axis=1)
+            # One step of the MDP for this state-action pair
+            [y,r] = self.MDPStep(x,u)
+
+            # Compute the estimate of the transition probabilities
+            hatP[x,u,:] *= (1 - 1/N[x, u])
+            hatP[x,u,:] += (np.arange(self.nX) == y).astype(int)/N[x, u]
+
+            # Updating rule for the state-action value function
+            Qmax = Q.max(axis=1)
+            Q[x,u] = r + self.gamma * np.sum(hatP[x,u,:]*Qmax)
+
+            N[x,u] += 1
+
+        Qmax = Q.max(axis=1)
         pol =  np.argmax(Q,axis=1)
 
         return [Qmax,pol]
