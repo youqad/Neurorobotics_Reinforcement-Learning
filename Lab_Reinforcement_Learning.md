@@ -246,7 +246,7 @@ On the contrary, with the more exploratory policy: apart from the states $0, 1$ 
 **NB**: in this question, for convenience
 
 - we'll call a state out of which the transition function is non-deterministic a *stochastic state*
-- we'll use the old reward, which amounts to zero everywhere except on state $15$ when the robot doesn't move (in which case it is set to be $1$)
+- we'll use the old reward function, which amounts to zero everywhere except on state $15$ when the robot doesn't move (in which case it is set to be $1$)
 
 To implement stochastic transitions, we use the first state and the seventh state as examples, with the following code (having non-deterministic transitions for every state overcomplicate things: one state with non-deterministic transitions is enough to have a good idea of what's going on):
 
@@ -533,15 +533,18 @@ def QLearning(self,tau):
     return [Qmax,pol]
 ```
 
-### 3. Run Q-Learning several times. What do you observe?
+### 3. Run $Q$-Learning several times. What do you observe?
 
-**NB**: in this question, the numbering of the states is the displayed one (i.e. the states range from $1$ to $16$).
+**NB**: in this question, the numbering of the states is the displayed one by `plotPolicy` (i.e. the states range from $1$ to $16$).
 
-We found that the policy is stochastic, except that for the rightmost column (i.e. 13, 14 and 15), bottom row (i.e. state 4, 8, 12) and of course, state 16, the policy is fixed. The states in rightmost column always take South action towards state 16, while the states in bottom row always take East action towarding state 16. This makes sense because for the rightmost column and bottom row, there is only one choice of action (or direction) for them which will go toward to state 16, and the robot will learn the only right direction when soft-max is applied. Unlike states in these two lines, other states behaviour in a stochastic way as a stochastic strategy is used in the algorithm.
+We found that the policy is stochastic, except that for the rightmost column (i.e. states $13, 14$ and $15$), bottom row (i.e. states $4, 8, 12$) and of course, state $16$, the policy is fixed. The states in the rightmost column always lead to the `South` action, towards the state $16$, while the states in the bottom row always lead to the `East` action, towards the state $16$.
 
-### 4. Compare the state-value function and the policy computed using Q-Learning with the ones you obtained with VI and PI.
+This makes sense because for the rightmost column and the bottom row, there is only one choice of action (or direction) for them which will go towards the state $16$, and the robot will learn the only right direction when soft-max is applied. Unlike states in these two lines, other states have actions associated to them in a non-deterministic way, as a stochastic strategy is used in the algorithm.
 
-Regarding the policy, VI and PI generate deterministic policy, while Q-Learning generate a stochastic one.
+### 4. Compare the state-value function and the policy computed using $Q$-Learning with the ones you obtained with `VI` and `PI`.
+
+Regarding the policy, `VI` and `PI` generate deterministic policies, while $Q$-Learning generates a stochastic one.
+
 Regarding the state-value function, the results may differ for every trial of Q-Learning depending on the stochastic experience of the robot, while the results keep the same every trial for VI and PI depending only on the fixed computational process; moreover, the state-value matrices of VI and PI look more neat, for example, with smaller value range (usually 13 - 20), and the actions towarding state 16 must lead to a higher value correspondingly. However, the state-value matix of Q-Learning looks more "messy" with disparity in value magnitude and no certain relationship between the value and direction towarding state 16.
 
 # 4. Model-Based Reinforcement Learning (MBRL)
