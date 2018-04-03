@@ -243,7 +243,7 @@ On the contrary, with the more exploratory policy: apart from the states $0, 1$ 
 
 ### 4. Change `self.P` to implement stochastic (non-deterministic) transitions. Use comments in the code to describe the transitions you chose and the results you observed while running `VI` on the new transitions you defined.
 
-To implement stochastic transition, we use the first state and the seventh state as examples, with the following code (having non-deterministic transitions for every state overcomplicate things: one state with non-deterministic transitions is enough to have a good idea of what's going on):
+To implement stochastic transitions, we use the first state and the seventh state as examples, with the following code (having non-deterministic transitions for every state overcomplicate things: one state with non-deterministic transitions is enough to have a good idea of what's going on):
 
 ```python
 pos = np.random.rand(5)
@@ -265,6 +265,8 @@ We found that, when the first step (at state $0$) is stochastic, the result is t
   <img src="https://raw.githubusercontent.com/youqad/Neurorobotics_Reinforcement-Learning/master/1.png" alt="Figure 2.1.4.2">
   <figcaption><em>Figure 2.1.4.2</em> - </figcaption>
 </figure>
+
+> On the whole, with a stochastic transition function: the less "stable" (i.e. likely to lead to a given state for a given action) a stochastic state is, the more it is likely to be averted, if it is on the way to a high-reward state.
 
 
 ## 2.2. Policy Iteration
