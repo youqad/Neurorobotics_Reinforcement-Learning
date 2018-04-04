@@ -638,7 +638,7 @@ As a result, one can barely figure out any reliable solution.
 
 
 <figure>
-  <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma02.png?raw=true" alt="Figure 2.4.2.2">
+  <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma1.png?raw=true" alt="Figure 2.4.2.2">
   <figcaption><em>Figure 2.4.2.2</em> -  </figcaption>
 </figure>
 
