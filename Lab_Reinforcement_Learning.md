@@ -632,14 +632,14 @@ With a *small* (*compared to how large the mean rewards can get*) noise standard
 As a result, one can barely figure out any reliable solution.
 
 <figure>
-  <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma01.png" alt="Figure 2.4.2.1">
-  <figcaption><em>Figure 2.4.2.1</em> - </figcaption>
+  <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma01.png?raw=true" alt="Figure 2.4.2.1">
+  <figcaption><em>Figure 2.4.2.1</em> -  </figcaption>
 </figure>
 
 
 <figure>
-  <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma1.png" alt="Figure 2.4.2.2">
-  <figcaption><em>Figure 2.4.2.2</em> - </figcaption>
+  <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma02.png?raw=true" alt="Figure 2.4.2.2">
+  <figcaption><em>Figure 2.4.2.2</em> -  </figcaption>
 </figure>
 
 
