@@ -623,13 +623,16 @@ def MDPStep(self,x,u,sigma=0.1):
 ```
 
 The noise in reward have an effect on the efficiency. With a small Gaussian noise value $0.1$, the policy becomes a little less efficient, shown as following:
+
 <figure>
   <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma01.png" alt="Figure 2.4.2.1">
   <figcaption><em>Figure 2.4.2.1</em> - </figcaption>
 </figure>
 
 
+
 However, with a big Gaussian noise value $1$, the robot barely can figure out a solution, as shown in the following figure:
+
 <figure>
   <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma1.png" alt="Figure 2.4.2.2">
   <figcaption><em>Figure 2.4.2.2</em> - </figcaption>
