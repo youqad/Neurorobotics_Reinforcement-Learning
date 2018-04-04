@@ -260,14 +260,16 @@ for i in range(self.nU):
 
 We found that, when the first step (at state $0$) is stochastic, the result is the same as the deterministic one (as shown in *Figure 2.1.4.1*) which makes sense because all routes will actually weigh the same under these conditions; when the 7th state (state $6$) is stochastic, no neighboring state of state $6$ will have the agent (via the optimal policy) choose to go through state $6$ (as shown in *Figure 2.1.4.2*), because there is a possibility of going "backwards" (i.e. not towards to the most attractive state (due to its reward), state $15$) on state $6$, which will reduce the $Q$-value of other states heading for state $6$.
 
+**NB**: in the figures, the states range from $1$ to $16$
+
 <figure>
   <img src="https://raw.githubusercontent.com/youqad/Neurorobotics_Reinforcement-Learning/master/2.png" alt="Figure 2.1.4.1">
-  <figcaption><em>Figure 2.1.4.1</em> - </figcaption>
+  <figcaption><em>Figure 2.1.4.1</em> - Policy with stochastic transitions on state 0 </figcaption>
 </figure>
 
 <figure>
   <img src="https://raw.githubusercontent.com/youqad/Neurorobotics_Reinforcement-Learning/master/1.png" alt="Figure 2.1.4.2">
-  <figcaption><em>Figure 2.1.4.2</em> - </figcaption>
+  <figcaption><em>Figure 2.1.4.2</em> - Policy with stochastic transition on state 7 </figcaption>
 </figure>
 
 > On the whole, with a stochastic transition function: the less "stable" (i.e. likely to lead to a given state for a given action) a stochastic state is, the more it is likely to be averted, if it is on the way to a high-reward state.
@@ -633,13 +635,13 @@ As a result, one can barely figure out any reliable solution.
 
 <figure>
   <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma01.png?raw=true" alt="Figure 2.4.2.1">
-  <figcaption><em>Figure 2.4.2.1</em> -  </figcaption>
+  <figcaption><em>Figure 2.4.2.1</em> - RTDP with $\texttt{sigma = 0.1}$ </figcaption>
 </figure>
 
 
 <figure>
   <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma1.png?raw=true" alt="Figure 2.4.2.2">
-  <figcaption><em>Figure 2.4.2.2</em> -  </figcaption>
+  <figcaption><em>Figure 2.4.2.2</em> - RTDP with $\texttt{sigma = 1}$ </figcaption>
 </figure>
 
 
