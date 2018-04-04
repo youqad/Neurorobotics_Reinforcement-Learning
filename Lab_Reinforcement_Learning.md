@@ -622,6 +622,7 @@ def MDPStep(self,x,u,sigma=0.1):
     return [y,r]
 ```
 
+<<<<<<< HEAD
 Noisy rewards have an effect on how good a job the computed policy is doing at maximizing the overall cumulated rewards (we may call that *the efficiency* of the policy). The smaller the standard deviation of the noise, the more efficient the computed policy becomes, since the rewards that were encountered during RTDP tend to be closer and closer to their regular/actual values. It all hinges on how the standard deviation of the noise compares to the order of magnitude of the mean rewards.
 
 With a *small* (*compared to how large the mean rewards can get*) noise standard deviation (e.g. $0.1 < 1 = \text{reward of state } 16$), the policy becomes just a little less efficient. However, with a big noise standard deviation value (e.g. $1$, which is as large as the mean rewards can get), the robot is completely confused: for instance, it is difficult to draw any conclusion when receiving a reward of $1$ on a given sample: it may mean that the current state-action pair has
@@ -631,6 +632,16 @@ With a *small* (*compared to how large the mean rewards can get*) noise standard
 
 As a result, one can barely figure out any reliable solution.
 
+<figure>
+  <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma01.png" alt="Figure 2.4.2.1">
+  <figcaption><em>Figure 2.4.2.1</em> - </figcaption>
+</figure>
+
+
+<figure>
+  <img src="https://github.com/youqad/Neurorobotics_Reinforcement-Learning/blob/master/sigma1.png" alt="Figure 2.4.2.2">
+  <figcaption><em>Figure 2.4.2.2</em> - </figcaption>
+</figure>
 
 
 ### 3. Implement `RTDP2`, a variant of RTDP that handles this stochastic reward by computing the model $\hat{r}$ of the mean reward for each state and action (like in equation $(17)$ for $\hat{P}$).
